@@ -8,17 +8,21 @@ module Activity
     scope :attached_id, -> (value) { where(attached_id: value) }
     scope :model, -> (value) { where(model: value) }
     scope :event, -> (value) { where(event: value) }
-    scope :created_at, -> (value) { where(created_at: value) }
-    scope :updated_at, -> (value) { where(updated_at: value) }
 
     # Filter that finds all records that match a given request
     # Example Request: attributes = {:attached_id: 1, event: "created_user"}
     # - Will return any records where attached_id = 1 and event = "created_user"
     # - Allows for simple searching with many unique cases
-    def self.filter(attributes)
-      attributes.slice(*SUPPORTED_FILTERS).reduce(all) do |scope, (key, value)|
+    def self.filter(page, per_page, order_by, attributes)
+      logs = attributes.slice(*SUPPORTED_FILTERS).reduce(all) do |scope, (key, value)|
         value.present? ? scope.send(key, value) : scope
       end
+
+      {
+        current_page: page,
+        total_pages: logs.page(page).per(per_page).total_pages,
+        logs: logs.order(order_by).page(page).per(per_page),
+      }
     end
 
     def self.create_log(log)
