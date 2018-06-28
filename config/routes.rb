@@ -1,3 +1,3 @@
 Activity::Engine.routes.draw do
-  resources :logs
+  # Routes here
 end

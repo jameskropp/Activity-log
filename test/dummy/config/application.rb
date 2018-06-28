@@ -1,6 +1,6 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
+require "rails/all"
 
 Bundler.require(*Rails.groups)
 require "activity"
@@ -21,4 +21,3 @@ module Dummy
     config.api_only = true
   end
 end
-

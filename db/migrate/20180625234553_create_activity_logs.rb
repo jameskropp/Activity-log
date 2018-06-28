@@ -4,7 +4,7 @@ class CreateActivityLogs < ActiveRecord::Migration[5.2]
       t.integer :user_id, null: false, index: true
       t.integer :attached_id, index: true
       t.string :model, index: true
-      t.string :action, index: true
+      t.string :event, index: true
 
       t.timestamps
     end
